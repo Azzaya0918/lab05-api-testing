@@ -1,0 +1,788 @@
+{
+  "info": {
+    "_postman_id": "b6393bda-9752-413d-a46d-973064533973",
+    "name": "lab5",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "54795380",
+    "_collection_link": "https://go.postman.co/collection/54795380-b6393bda-9752-413d-a46d-973064533973?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "T01 Happy path",
+      "item": [
+        {
+          "name": "setup: оюутан",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "   {\"status\":\"active\",\"coursesTaken\":[\"CS201\"]}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/students/S01",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "students",
+                "S01"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "setup: хичээл",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"prerequisites\":[\"CS201\"]}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/courses/C01",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "courses",
+                "C01"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Амжилттай бүртгэлд 201 ба OK",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "   pm.test(\"T01: Амжилттай бүртгэлд статус 201\", function () {\r\n       pm.response.to.have.status(200);\r\n   });\r\n   pm.test(\"T01: result нь OK\", function () {\r\n       pm.expect(pm.response.json().result).to.eql(\"OK\");\r\n   });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"studentID\":\"S01\",\"courseID\":\"C01\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/registrations",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "registrations"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "T02 Байхгүй оюутан",
+      "item": [
+        {
+          "name": "setup: хичээл",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"prerequisites\":[]}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/courses/C02",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "courses",
+                "C02"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Байхгүй оюутанд ERROR_NO_STUDENT",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"T02: Байхгүй оюутанд статус 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\npm.test(\"T02: result нь ERROR_NO_STUDENT\", function () {\r\n    pm.expect(pm.response.json().result).to.eql(\"ERROR_NO_STUDENT\");\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"studentID\":\"NOSTU02\",\"courseID\":\"C02\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/registrations",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "registrations"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "T03 Идэвхгүй оюутан",
+      "item": [
+        {
+          "name": "setup: оюутан",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\":\"inactive\",\"coursesTaken\":[\"CS201\"]}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/students/S03",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "students",
+                "S03"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "setup: хичээл",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"prerequisites\":[\"CS201\"]}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/courses/C03",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "courses",
+                "C03"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Идэвхгүй оюутанд ERROR_INACTIVE_STUDENT",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"T03: Идэвхгүй оюутанд статус 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\npm.test(\"T03: result нь ERROR_INACTIVE_STUDENT\", function () {\r\n    pm.expect(pm.response.json().result).to.eql(\"ERROR_INACTIVE_STUDENT\");\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"studentID\":\"S03\",\"courseID\":\"C03\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/registrations",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "registrations"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "T04 Байхгүй хичээл",
+      "item": [
+        {
+          "name": "setup: оюутан",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\":\"active\",\"coursesTaken\":[]}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/students/S04",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "students",
+                "S04"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Байхгүй хичээлд ERROR_NO_COURSE",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"T04: Байхгүй хичээлд статус 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\npm.test(\"T04: result нь ERROR_NO_COURSE\", function () {\r\n    pm.expect(pm.response.json().result).to.eql(\"ERROR_NO_COURSE\");\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"studentID\":\"S04\",\"courseID\":\"NOCOURSE04\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/registrations",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "registrations"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "T05 Урьдач огт үзээгүй",
+      "item": [
+        {
+          "name": "setup: оюутан",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\":\"active\",\"coursesTaken\":[]}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/students/S05",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "students",
+                "S05"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "setup: хичээл",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"prerequisites\":[\"CS201\"]}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/courses/C05",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "courses",
+                "C05"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Урьдач огт үзээгүйд ERROR_PREREQUISITES",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"T05: Урьдач дутуу үед статус 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\npm.test(\"T05: result нь ERROR_PREREQUISITES\", function () {\r\n    pm.expect(pm.response.json().result).to.eql(\"ERROR_PREREQUISITES\");\r\n});\r\npm.test(\"T05: missing нь CS201\", function () {\r\n    pm.expect(pm.response.json().missing).to.eql([\"CS201\"]);\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"studentID\":\"S05\",\"courseID\":\"C05\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/registrations",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "registrations"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "T06 Урьдач зарим нь",
+      "item": [
+        {
+          "name": "setup: оюутан",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\":\"active\",\"coursesTaken\":[\"CS201\"]}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/students/S06",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "students",
+                "S06"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "setup: хичээл",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"prerequisites\":[\"CS201\",\"CS202\"]}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/courses/C06",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "courses",
+                "C06"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Урьдач зарим нь дутуу үед ERROR_PREREQUISITES",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"T06: Урьдач зарим нь дутуу үед статус 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\npm.test(\"T06: result нь ERROR_PREREQUISITES\", function () {\r\n    pm.expect(pm.response.json().result).to.eql(\"ERROR_PREREQUISITES\");\r\n});\r\npm.test(\"T06: missing нь CS202\", function () {\r\n    pm.expect(pm.response.json().missing).to.eql([\"CS202\"]);\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"studentID\":\"S06\",\"courseID\":\"C06\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/registrations",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "registrations"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "T07 Давхар алдаа: идэвхгүй оюутан + байхгүй хичээл",
+      "item": [
+        {
+          "name": "Setup: идэвхгүй оюутан",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\":\"inactive\",\"coursesTaken\":[]}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/students/S07",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "students",
+                "S07"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Давхар алдаа: идэвхгүй оюутан ба байхгүй хичээл",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"T07: Давхар алдаанд статус 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\npm.test(\"T07: result нь ERROR_INACTIVE_STUDENT\", function () {\r\n    pm.expect(pm.response.json().result).to.eql(\"ERROR_INACTIVE_STUDENT\");\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"studentID\":\"S07\",\"courseID\":\"NOCOURSE07\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/registrations",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "registrations"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "T08 Давхар алдаа: байхгүй оюутан + байхгүй хичээл",
+      "item": [
+        {
+          "name": "Давхар алдаа: байхгүй оюутан ба байхгүй хичээл",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"T08: Давхар алдаанд статус 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\npm.test(\"T08: result нь ERROR_NO_STUDENT\", function () {\r\n    pm.expect(pm.response.json().result).to.eql(\"ERROR_NO_STUDENT\");\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"studentID\":\"NOSTU08\",\"courseID\":\"NOCOURSE08\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/registrations",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "registrations"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "T09 Урьдачгүй хичээл",
+      "item": [
+        {
+          "name": "setup: оюутан",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\":\"active\",\"coursesTaken\":[]}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/students/S09",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "students",
+                "S09"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "setup: хичээл",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"prerequisites\":[]}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/courses/C09",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "courses",
+                "C09"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Урьдачгүй хичээлд бүртгэл амжилттай",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "  pm.test(\"T09: Урьдачгүй хичээлд статус 201\", function () {\r\n      pm.response.to.have.status(201);\r\n  });\r\n  pm.test(\"T09: result нь OK\", function () {\r\n      pm.expect(pm.response.json().result).to.eql(\"OK\");\r\n  });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"studentID\":\"S09\",\"courseID\":\"C09\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/registrations",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "registrations"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "T10 Талбар дутуу",
+      "item": [
+        {
+          "name": "courseID дутуу үед ERROR_BAD_REQUEST",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "  pm.test(\"T10: Талбар дутуу үед статус 400\", function () {\r\n      pm.response.to.have.status(400);\r\n  });\r\n  pm.test(\"T10: result нь ERROR_BAD_REQUEST\", function () {\r\n      pm.expect(pm.response.json().result).to.eql(\"ERROR_BAD_REQUEST\");\r\n  });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"studentID\":\"S10\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/registrations",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "registrations"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000"
+    }
+  ]
+}
