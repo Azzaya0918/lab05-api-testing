@@ -1,0 +1,133 @@
+(node:4073) [DEP0176] DeprecationWarning: fs.F_OK is deprecated, use fs.constants.F_OK instead
+(Use `node --trace-deprecation ...` to show where the warning was created)
+newman
+
+lab5
+
+❏ T01 Happy path
+↳ setup: оюутан
+  PUT http://localhost:3000/students/S01 [200 OK, 178B, 38ms]
+
+↳ setup: хичээл
+  PUT http://localhost:3000/courses/C01 [200 OK, 178B, 9ms]
+
+↳ Амжилттай бүртгэлд 201 ба OK
+  POST http://localhost:3000/registrations [201 Created, 203B, 3ms]
+  1. T01: Амжилттай бүртгэлд статус 201
+  ✓  T01: result нь OK
+
+❏ T02 Байхгүй оюутан
+↳ setup: хичээл
+  PUT http://localhost:3000/courses/C02 [200 OK, 178B, 3ms]
+
+↳ Байхгүй оюутанд ERROR_NO_STUDENT
+  POST http://localhost:3000/registrations [200 OK, 192B, 2ms]
+  ✓  T02: Байхгүй оюутанд статус 200
+  ✓  T02: result нь ERROR_NO_STUDENT
+
+❏ T03 Идэвхгүй оюутан
+↳ setup: оюутан
+  PUT http://localhost:3000/students/S03 [200 OK, 178B, 3ms]
+
+↳ setup: хичээл
+  PUT http://localhost:3000/courses/C03 [200 OK, 178B, 2ms]
+
+↳ Идэвхгүй оюутанд ERROR_INACTIVE_STUDENT
+  POST http://localhost:3000/registrations [200 OK, 198B, 3ms]
+  ✓  T03: Идэвхгүй оюутанд статус 200
+  ✓  T03: result нь ERROR_INACTIVE_STUDENT
+
+❏ T04 Байхгүй хичээл
+↳ setup: оюутан
+  PUT http://localhost:3000/students/S04 [200 OK, 178B, 3ms]
+
+↳ Байхгүй хичээлд ERROR_NO_COURSE
+  POST http://localhost:3000/registrations [200 OK, 191B, 4ms]
+  ✓  T04: Байхгүй хичээлд статус 200
+  ✓  T04: result нь ERROR_NO_COURSE
+
+❏ T05 Урьдач огт үзээгүй
+↳ setup: оюутан
+  PUT http://localhost:3000/students/S05 [200 OK, 178B, 7ms]
+
+↳ setup: хичээл
+  PUT http://localhost:3000/courses/C05 [200 OK, 178B, 2ms]
+
+↳ Урьдач огт үзээгүйд ERROR_PREREQUISITES
+  POST http://localhost:3000/registrations [200 OK, 215B, 3ms]
+  ✓  T05: Урьдач дутуу үед статус 200
+  ✓  T05: result нь ERROR_PREREQUISITES
+  ✓  T05: missing нь CS201
+
+❏ T06 Урьдач зарим нь
+↳ setup: оюутан
+  PUT http://localhost:3000/students/S06 [200 OK, 178B, 2ms]
+
+↳ setup: хичээл
+  PUT http://localhost:3000/courses/C06 [200 OK, 178B, 2ms]
+
+↳ Урьдач зарим нь дутуу үед ERROR_PREREQUISITES
+  POST http://localhost:3000/registrations [200 OK, 215B, 4ms]
+  ✓  T06: Урьдач зарим нь дутуу үед статус 200
+  ✓  T06: result нь ERROR_PREREQUISITES
+  ✓  T06: missing нь CS202
+
+❏ T07 Давхар алдаа: идэвхгүй оюутан + байхгүй хичээл
+↳ Setup: идэвхгүй оюутан
+  PUT http://localhost:3000/students/S07 [200 OK, 178B, 2ms]
+
+↳ Давхар алдаа: идэвхгүй оюутан ба байхгүй хичээл
+  POST http://localhost:3000/registrations [200 OK, 198B, 2ms]
+  ✓  T07: Давхар алдаанд статус 200
+  ✓  T07: result нь ERROR_INACTIVE_STUDENT
+
+❏ T08 Давхар алдаа: байхгүй оюутан + байхгүй хичээл
+↳ Давхар алдаа: байхгүй оюутан ба байхгүй хичээл
+  POST http://localhost:3000/registrations [200 OK, 192B, 2ms]
+  ✓  T08: Давхар алдаанд статус 200
+  ✓  T08: result нь ERROR_NO_STUDENT
+
+❏ T09 Урьдачгүй хичээл
+↳ setup: оюутан
+  PUT http://localhost:3000/students/S09 [200 OK, 178B, 2ms]
+
+↳ setup: хичээл
+  PUT http://localhost:3000/courses/C09 [200 OK, 178B, 1ms]
+
+↳ Урьдачгүй хичээлд бүртгэл амжилттай
+  POST http://localhost:3000/registrations [201 Created, 203B, 4ms]
+  ✓  T09: Урьдачгүй хичээлд статус 201
+  ✓  T09: result нь OK
+
+❏ T10 Талбар дутуу
+↳ courseID дутуу үед ERROR_BAD_REQUEST
+  POST http://localhost:3000/registrations [400 Bad Request, 202B, 3ms]
+  ✓  T10: Талбар дутуу үед статус 400
+  ✓  T10: result нь ERROR_BAD_REQUEST
+
+┌─────────────────────────┬─────────────────┬─────────────────┐
+│                         │        executed │          failed │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│              iterations │               1 │               0 │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│                requests │              23 │               0 │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│            test-scripts │              10 │               0 │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│      prerequest-scripts │               0 │               0 │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│              assertions │              22 │               1 │
+├─────────────────────────┴─────────────────┴─────────────────┤
+│ total run duration: 456ms                                   │
+├─────────────────────────────────────────────────────────────┤
+│ total data received: 555B (approx)                          │
+├─────────────────────────────────────────────────────────────┤
+│ average response time: 4ms [min: 1ms, max: 38ms, s.d.: 7ms] │
+└─────────────────────────────────────────────────────────────┘
+
+[31m  # [39m[31m failure        [39m[31m detail                                                 [39m
+[90m    [39m[90m                [39m[90m                                                        [39m
+ 1.  AssertionError  T01: Амжилттай бүртгэлд статус 201                     
+                     expected response to have status code 200 but got 201  
+                     at assertion:0 in test-script                          
+                     inside "T01 Happy path / Амжилттай бүртгэлд 201 ба OK" 
